@@ -1,4 +1,2 @@
-# Project exclude paths
-/auth-service/target/
-/eureka-server/target/
-/gateway/target/
+.idea/
+.gradle/

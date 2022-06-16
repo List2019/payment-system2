@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.4.4'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.6.6'
+
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+    runtimeOnly group: 'com.h2database', name: 'h2', version: '2.1.210'
+    implementation 'org.springframework.cloud:spring-cloud-starter-consul-discovery:3.1.1'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator:2.7.0'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server:2.7.0'
+    implementation 'org.json:json:20220320'
+    implementation 'com.nimbusds:nimbus-jose-jwt:9.23'
+
+    implementation "jakarta.xml.bind:jakarta.xml.bind-api:2.3.2"
+    implementation "org.glassfish.jaxb:jaxb-runtime:2.3.2"
+}

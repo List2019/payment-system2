@@ -1,9 +1,6 @@
-package com.epam.demo.entity;
+package com.demo.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +11,7 @@ import javax.persistence.Table;
 @Table(name = "users")
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 public class User {
 
     public User(String password, String login) {
@@ -21,46 +19,29 @@ public class User {
         this.login = login;
     }
 
-    @Getter
-    @Setter
     @Id
-    @Column(name = "id_users")
-    private long idUsers;
+    @Column(name = "id")
+    private long id;
 
-    @Getter
-    @Setter
     @Column(name = "name")
     private String name;
 
-    @Getter
-    @Setter
     @Column(name = "last_name")
     private String lastName;
 
-    @Getter
-    @Setter
-    @Column(name = "number_card")
-    private long numberCard;
+    @Column(name = "card_id")
+    private long cardId;
 
-    @Getter
-    @Setter
     @Column(name = "password")
     private String password;
 
-    @Getter
-    @Setter
     @Column(name = "login")
     private String login;
 
-    @Getter
-    @Setter
     @Column(name = "role")
+    @Getter
     private String role;
 
-    @Getter
-    @Setter
     @Column(name = "email")
     private String email;
-
-
 }

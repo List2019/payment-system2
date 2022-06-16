@@ -1,7 +1,7 @@
-package com.epam.demo.interceptor;
+package com.demo.interceptor;
 
-import com.epam.demo.entity.User;
-import com.epam.demo.manager.UserManager;
+import com.demo.manager.UserManager;
+import com.demo.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 
