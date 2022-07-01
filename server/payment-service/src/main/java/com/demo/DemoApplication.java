@@ -10,9 +10,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @EnableDiscoveryClient
 @EnableJpaAuditing
 public class DemoApplication {
-
 	public static void main(String[] args) {
 		new SpringApplicationBuilder(DemoApplication.class).web(WebApplicationType.SERVLET).run(args);
 	}
-
 }

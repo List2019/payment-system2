@@ -1,6 +1,0 @@
-applicationType: default
-defaultPackage: com.auth
-testFramework: junit
-sourceLanguage: java
-buildTool: gradle
-features: [annotation-api, app-name, data, data-jdbc, graalvm, gradle, h2, http-client, jackson-databind, java, java-application, jdbc-hikari, junit, logback, micronaut-build, netty-server, reactor, reactor-http-client, readme, security-annotations, security-jwt, shade, yaml]

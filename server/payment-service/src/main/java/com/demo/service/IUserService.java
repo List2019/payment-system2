@@ -1,12 +1,14 @@
 package com.demo.service;
 
 import com.demo.entity.User;
+import com.demo.exception.AccountNotFoundException;
+import com.demo.exception.UsersNotFoundException;
 
 import java.util.List;
 
 public interface IUserService {
 
-    User checkLoginAndPassword(String login, String password);
+    User checkLoginAndPassword(String login, String password) throws UsersNotFoundException;
 
     void addUsers(User user);
 
@@ -14,7 +16,7 @@ public interface IUserService {
 
     List<User> getAllUsers();
 
-    User findUserByNumberCard(Long numberCard);
+    User findUserByAccountNumber(String accountNumber) throws AccountNotFoundException;
 
-    User checkUsersByLogin(String login);
+    Boolean isUserExist(String login);
 }

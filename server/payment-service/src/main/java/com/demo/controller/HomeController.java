@@ -1,154 +1,84 @@
 package com.demo.controller;
 
-import com.demo.manager.CreditCardManager;
-import com.demo.entity.BankCard;
-import com.demo.entity.User;
-import com.demo.manager.UserManager;
-import com.demo.service.BankCardService;
-import com.demo.service.UserService;
+import com.demo.dto.TransferRequestDto;
+import com.demo.entity.Account;
+import com.demo.exception.AccountNotFoundException;
+import com.demo.exception.MoneyNotEnoughException;
+import com.demo.service.AccountService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 
-@Controller
+/**
+ * когда будет норм UI выпилить отсюда текст
+ */
+@RestController
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class HomeController {
 
-    private final CreditCardManager creditCardManager;
-    private final BankCardService bankCardService;
-    private final UserManager userManager;
+    private final AccountService accountService;
 
     private static final Logger logger = LogManager.getLogger(HomeController.class);
 
-    @RequestMapping("/main")
-    public ModelAndView mainPage() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("main");
-        return modelAndView;
+
+    @GetMapping("/test")
+    public ResponseEntity<String> test() {
+        return new ResponseEntity<>("Token was validated successfully", HttpStatus.OK);
     }
 
-    @GetMapping("/createCard")
-    public ModelAndView creditCardPage() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("createCard");
-        return modelAndView;
-    }
-
-    @GetMapping("/refill")
-    public ModelAndView refillPage() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("refill");
-        return modelAndView;
-    }
-
-    @GetMapping("/accountBlocking")
-    public ModelAndView blockingPage() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("accountBlocking");
-        return modelAndView;
-    }
-
-    @GetMapping("/transfer")
-    public ModelAndView transferPage() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("transfer");
-        return modelAndView;
-    }
-
-
-    @PostMapping("/createCard")
-    public ModelAndView createCard(BankCard bankCard, BindingResult bindingResult) {
-
-        ModelAndView modelAndView = new ModelAndView();
-
-        if (bindingResult.hasErrors()) {
-            modelAndView.addObject("errors", bindingResult.getAllErrors());
+    @PostMapping(value = "/accounts")
+    public ResponseEntity<String> createAccount(@RequestBody Account account) {
+        var accountAlreadyExist = accountService.isAccountAlreadyExist(account.getNumber());
+        if (accountAlreadyExist) {
+            return new ResponseEntity<>("Карта с таким номером уже сущевствует", HttpStatus.CONFLICT);
         } else {
-            var cardByNumberCard = bankCardService.getBankCardByCardNumber(bankCard.getCardNumber());
-            if (Objects.isNull(cardByNumberCard)) {
-                User currentUser = userManager.getUser();
-                bankCardService.add(currentUser, bankCard);
-                modelAndView.addObject("message", "Карта успешно зарегистрирована");
-            } else {
-                modelAndView.addObject("message", "Карта с таким номером уже сущевствует");
-            }
+            accountService.addAccount(account);
+            return new ResponseEntity<>("Карта успешно зарегистрирована", HttpStatus.CREATED);
         }
-
-        modelAndView.setViewName("createCard");
-        return modelAndView;
     }
 
-    @PostMapping("/refill")
-    public ModelAndView refill(BigDecimal value) {
-        ModelAndView modelAndView = new ModelAndView();
+    @PostMapping("/accounts/{accountNumber}")
+    public ResponseEntity<String> deposit(@PathVariable String accountNumber, @RequestBody BigDecimal amount)
+            throws AccountNotFoundException {
+        var account = accountService.getAccountByNumber(accountNumber);
 
-        BankCard currentBankCard = bankCardService.getBankCardByCardNumber(userManager.getUser().getCardId());
-
-        if (currentBankCard.isBlocked()) {
-            modelAndView.addObject("message", "К сожалению ваш счёт заблокирован");
+        if (account.isBlocked()) {
+            return new ResponseEntity<>("К сожалению ваш счёт заблокирован", HttpStatus.FORBIDDEN);
         } else {
-            bankCardService.deposit(value, userManager.getUser().getCardId());
-            modelAndView.addObject("message", "Пополнение выполнен успешно," +
-                    " ваш баланс: " + bankCardService.getBalance(currentBankCard.getCardNumber()) + "");
-            logger.info("Пополнение " + currentBankCard.getCardNumber() + " на " + value.intValue());
+            accountService.deposit(amount, accountNumber);
+            logger.info("Пополнение " + accountNumber + " на " + amount.intValue());
+            return new ResponseEntity<>("Пополнение выполнен успешно," +
+                    " ваш баланс: " + accountService.getBalance(accountNumber) + "", HttpStatus.OK);
         }
-
-        modelAndView.setViewName("refill");
-        return modelAndView;
     }
 
-    @PostMapping("/accountBlocking")
-    public ModelAndView blocking() {
-        ModelAndView modelAndView = new ModelAndView();
-
-        BankCard currentBankCard = bankCardService.getBankCardByCardNumber(userManager.getUser().getCardId());
-
-        if (currentBankCard.isBlocked()) {
-            modelAndView.addObject("message", "Ваша карта уже заблокированна");
-        } else {
-            bankCardService.block(userManager.getUser().getCardId());
-            modelAndView.addObject("message", "Ваша карта успешно заблокированна");
-            logger.info("Пользователь " + currentBankCard.getCardNumber() + " заблокировал счёт");
-        }
-        modelAndView.setViewName("accountBlocking");
-
-        return modelAndView;
-
+    @PatchMapping("/accounts/{accountNumber}")
+    public ResponseEntity<String> changeBlockStatus(@PathVariable String accountNumber, @RequestBody Boolean block) throws AccountNotFoundException {
+        accountService.changeBlockingStatus(block, accountNumber);
+        logger.info("Счет " + accountNumber + " заблокирован");
+        return new ResponseEntity<>("Ваш счет успешно заблокированна", HttpStatus.OK);
     }
 
-    @PostMapping("/transfer")
-    public ModelAndView transfer(BigDecimal value, long numberCard) {
-        ModelAndView modelAndView = new ModelAndView();
+    @PostMapping("/accounts/transfer")
+    public ResponseEntity<String> transfer(@RequestBody TransferRequestDto transferRequest) throws AccountNotFoundException,
+            MoneyNotEnoughException {
+        var from = accountService.getAccountByNumber(transferRequest.getFrom());
+        var to = accountService.getAccountByNumber(transferRequest.getTo());
+        BigDecimal amount = transferRequest.getAmount();
 
-        BankCard from = creditCardManager.getBankCard();
-        BankCard to = bankCardService.getBankCardByCardNumber(numberCard);
-
-        if (from.isBlocked()) {
-            modelAndView.addObject("message", "К сожалению ваш счёт заблокирован");
-            modelAndView.setViewName("transfer");
+        if (from.isBlocked() || to.isBlocked()) {
+            return new ResponseEntity<>("Один из счетов заблокирован", HttpStatus.CONFLICT);
         } else {
-
-            try {
-                bankCardService.simpleTransfer(value, to, from);
-                modelAndView.addObject("message", "Перевод выполнен успешно");
-              //  log.info("Перевод от " + from.getCardNumber() + " к " + to.getCardNumber() + " на сумму " + value.intValue());
-
-
-            } catch (EmptyResultDataAccessException ex) {
-                modelAndView.addObject("message", "На вашем счету недостаточно средств");
-            }
-
+            accountService.simpleTransfer(amount, to, from);
+            logger.info("Перевод от " + from.getNumber() + " к " + to.getNumber() + " на сумму " + amount.intValue());
+            return new ResponseEntity<>(HttpStatus.OK);
         }
-        modelAndView.setViewName("transfer");
-        return modelAndView;
     }
 }

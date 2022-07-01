@@ -1,11 +1,13 @@
 package com.demo.entity;
 
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "users")
@@ -13,24 +15,15 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Data
 public class User {
-
-    public User(String password, String login) {
-        this.password = password;
-        this.login = login;
-    }
-
     @Id
     @Column(name = "id")
-    private long id;
+    private UUID id;
 
     @Column(name = "name")
     private String name;
 
     @Column(name = "last_name")
     private String lastName;
-
-    @Column(name = "card_id")
-    private long cardId;
 
     @Column(name = "password")
     private String password;
@@ -39,9 +32,25 @@ public class User {
     private String login;
 
     @Column(name = "role")
-    @Getter
     private String role;
 
     @Column(name = "email")
     private String email;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user")
+    private List<Account> accounts;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", password='" + password + '\'' +
+                ", login='" + login + '\'' +
+                ", role='" + role + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }
