@@ -1,0 +1,14 @@
+version: '3.9'
+
+services:
+  keycloak:
+    container_name: keycloak
+    build: .
+    ports:
+      - "8080:8080"
+
+  payment-system:
+    container_name: payment-system
+    build: ./server/payment-service
+    ports:
+      - "8180:8180"

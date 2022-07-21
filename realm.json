@@ -1,0 +1,48 @@
+{
+  "realm": "payment-system",
+  "enabled": true,
+  "roles": {
+    "realm": [
+      {
+        "id": "a730e3be-0b9b-4a02-ba20-a39ecb58c692",
+        "name": "GOD",
+        "description": "THIS IS GOOOOD!",
+        "containerId": "payment-system-realm"
+      }
+    ]
+  },
+  "requiredCredentials": [
+    "password"
+  ],
+  "users": [{
+    "username" : "developer",
+    "enabled": true,
+    "credentials" : [{ 
+      "type" : "password",
+      "value" : "developer" 
+    }],
+    "realmRoles": ["payment-system"],
+    "clientRoles": {
+      "account": ["GOD"]
+    }
+  }],
+  "clients": [
+    {
+      "id": "778a3dbf-8dc7-4d95-be77-29649638a373",
+      "clientId": "payment-system-app",
+      "enabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "redirectUris": [
+        "http://localhost:8180/*"
+      ],
+      "bearerOnly": false,
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "publicClient": true,
+      "protocol": "openid-connect",
+      "attributes": {
+        "use.refresh.tokens": "true"
+      }
+    }
+]
+}

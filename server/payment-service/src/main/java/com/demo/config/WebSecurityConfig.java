@@ -38,7 +38,7 @@ public class WebSecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
         super.configure(http);
         http.authorizeRequests()
                 .antMatchers("/api/v1/*")
-                .hasRole("god")
+                .hasRole("GOD")
                 .anyRequest()
                 .permitAll();
     }
