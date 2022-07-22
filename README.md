@@ -14,4 +14,3 @@ docker-compose up -d
 For accessing to admin console use admin/admin credentials
 
 Before accessing to REST you have to assignee 'GOD' role to developer user and then use developer/developer during keycloak authorization
- ```
