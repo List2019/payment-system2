@@ -2,7 +2,18 @@
 
 Payment-system 2 is a testing project where I trying to use the most modern technologies as test-containers, groovy and etc.
 
-## Startup
+## Technology stack
+
+<ul>
+  <li>Java 17</li>
+  <li>Spring</li>
+  <li>Gradle</li>
+  <li>Test containers</li>
+  <li>Groovy</li>
+  <li>Keycloak</li>
+</ul>
+
+## Quckstart
 
 Just run docker compose.
 
