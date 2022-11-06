@@ -35,3 +35,10 @@ grant_type:password
 ```
 
 For access to keycloak admin console use admin/admin
+
+## Swagger
+
+After getting token you can use it for access the app endpoints
+```
+localhost:8180/swagger-ui/index.html#/
+```
