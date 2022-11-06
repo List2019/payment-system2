@@ -11,17 +11,27 @@ Payment-system 2 is a testing project where I trying to use the most modern tech
   <li>Test containers</li>
   <li>Groovy</li>
   <li>Keycloak</li>
+  <li>Swagger</li>
 </ul>
 
 ## Quckstart
 
-Just run docker compose.
+First of all let's up app and keycloak in docker and then generate token for accessing the swagger UI
 
 ```bash
 docker-compose up -d
 ```
 
 ## Keycloak
-For accessing to admin console use admin/admin credentials
 
-Before accessing to REST you have to assignee 'GOD' role to developer user and then use developer/developer during keycloak authorization
+For token generation you should make a POST request to this url 
+```localhost:8080/realms/payment-system/protocol/openid-connect/token``` with that parameters:
+
+```
+client_id:payment-system-app
+username:developer
+password:developer
+grant_type:password
+```
+
+For access to keycloak admin console use admin/admin
