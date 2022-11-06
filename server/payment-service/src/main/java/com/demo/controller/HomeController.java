@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,7 +35,7 @@ public class HomeController {
     @PostMapping(value = "/accounts")
     public ResponseEntity<String> createAccount(@RequestBody Account account) {
         var accountAlreadyExist = accountService.isAccountAlreadyExist(account.getNumber());
-        if (accountAlreadyExist) {
+        if (Boolean.TRUE.equals(accountAlreadyExist)) {
             return new ResponseEntity<>("Карта с таким номером уже сущевствует", HttpStatus.CONFLICT);
         } else {
             accountService.addAccount(account);

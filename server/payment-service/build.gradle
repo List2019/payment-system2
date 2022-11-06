@@ -46,6 +46,8 @@ dependencies {
     testImplementation 'com.google.code.gson:gson:2.9.0'
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.12'
 }
 
 test {
