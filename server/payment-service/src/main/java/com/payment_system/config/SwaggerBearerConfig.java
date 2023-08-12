@@ -1,4 +1,4 @@
-package com.demo.config;
+package com.payment_system.config;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.models.Components;

@@ -1,10 +1,9 @@
-package com.demo.service;
+package com.payment_system.service;
 
-import com.demo.entity.Account;
-import com.demo.exception.AccountNotFoundException;
-import com.demo.exception.MoneyNotEnoughException;
-import com.demo.repository.AccountRepository;
-import lombok.AllArgsConstructor;
+import com.payment_system.model.entity.Account;
+import com.payment_system.model.exception.AccountNotFoundException;
+import com.payment_system.model.exception.NotEnoughMoneyException;
+import com.payment_system.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +30,7 @@ public class AccountService implements IAccountService {
         }
     }
 
-    public void withdraw(BigDecimal value, String accountNumber) throws AccountNotFoundException, MoneyNotEnoughException {
+    public void withdraw(BigDecimal value, String accountNumber) throws AccountNotFoundException, NotEnoughMoneyException {
         Optional<Account> optionalAccount = accountRepository.findById(accountNumber);
 
         if (optionalAccount.isPresent() && optionalAccount.get().getBalance().compareTo(value) >= 0) {
@@ -40,7 +39,7 @@ public class AccountService implements IAccountService {
             account.setBalance(result);
             accountRepository.save(account);
         } else if (optionalAccount.isPresent() && optionalAccount.get().getBalance().compareTo(value) < 0) {
-            throw new MoneyNotEnoughException();
+            throw new NotEnoughMoneyException();
         } else {
             throw new AccountNotFoundException(accountNumber);
         }
@@ -102,19 +101,8 @@ public class AccountService implements IAccountService {
         }
     }
 
-    public void simpleTransfer(BigDecimal value, Account to, Account from) throws AccountNotFoundException, MoneyNotEnoughException {
-        withdraw(value, from.getNumber());
-        deposit(value, to.getNumber());
-    }
-
-    public boolean checkBalance(BigDecimal value, String accountNumber) throws AccountNotFoundException {
-        Optional<Account> optionalAccount = accountRepository.findById(accountNumber);
-
-        if (optionalAccount.isPresent()) {
-            var account = optionalAccount.get();
-            return account.getBalance().compareTo(value) >= 0;
-        } else {
-            throw new AccountNotFoundException(accountNumber);
-        }
+    public void simpleTransfer(BigDecimal value, Account to, Account from) throws AccountNotFoundException, NotEnoughMoneyException {
+        withdraw(value, from.getAccountNumber());
+        deposit(value, to.getAccountNumber());
     }
 }

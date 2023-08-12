@@ -1,14 +1,10 @@
-package com.demo.entity;
+package com.payment_system.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Table(name = "account")
@@ -18,7 +14,7 @@ import java.util.UUID;
 public class Account {
     @Id
     @Column(name = "account_number")
-    private String number;
+    private String accountNumber;
 
     @Column(name = "balance")
     private BigDecimal balance;
@@ -35,7 +31,7 @@ public class Account {
     @Override
     public String toString() {
         return "Account{" +
-                "number='" + number + '\'' +
+                "number='" + accountNumber + '\'' +
                 ", balance=" + balance +
                 ", isBlocked=" + isBlocked +
                 '}';

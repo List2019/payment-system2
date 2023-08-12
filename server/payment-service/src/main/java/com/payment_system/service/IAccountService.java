@@ -1,8 +1,8 @@
-package com.demo.service;
+package com.payment_system.service;
 
-import com.demo.entity.Account;
-import com.demo.exception.AccountNotFoundException;
-import com.demo.exception.MoneyNotEnoughException;
+import com.payment_system.model.entity.Account;
+import com.payment_system.model.exception.AccountNotFoundException;
+import com.payment_system.model.exception.NotEnoughMoneyException;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -18,9 +18,7 @@ public interface IAccountService {
 
     void changeBlockingStatus(boolean block, String accountNumber) throws AccountNotFoundException;
 
-    boolean checkBalance(BigDecimal value, String accountNumber) throws AccountNotFoundException;
-
-    void withdraw(BigDecimal value, String accountNumber) throws AccountNotFoundException, MoneyNotEnoughException;
+    void withdraw(BigDecimal value, String accountNumber) throws AccountNotFoundException, NotEnoughMoneyException;
 
     BigDecimal getBalance(String accountNumber) throws AccountNotFoundException;
 
@@ -28,5 +26,5 @@ public interface IAccountService {
 
     void deleteAccount(String accountNumber) throws AccountNotFoundException;
 
-    void simpleTransfer(BigDecimal value, Account to, Account from) throws AccountNotFoundException, MoneyNotEnoughException;
+    void simpleTransfer(BigDecimal value, Account to, Account from) throws AccountNotFoundException, NotEnoughMoneyException;
 }

@@ -1,12 +1,11 @@
-package com.demo.service;
+package com.payment_system.service;
 
-import com.demo.entity.Account;
-import com.demo.entity.User;
-import com.demo.exception.AccountNotFoundException;
-import com.demo.exception.UsersNotFoundException;
-import com.demo.repository.AccountRepository;
-import com.demo.repository.UserRepository;
-import lombok.AllArgsConstructor;
+import com.payment_system.model.entity.Account;
+import com.payment_system.model.entity.User;
+import com.payment_system.model.exception.AccountNotFoundException;
+import com.payment_system.model.exception.UsersNotFoundException;
+import com.payment_system.repository.AccountRepository;
+import com.payment_system.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service

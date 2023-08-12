@@ -1,4 +1,4 @@
-package com.demo;
+package com.payment_system;
 
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

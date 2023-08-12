@@ -1,6 +1,6 @@
-package com.demo.controller;
+package com.payment_system.controller;
 
-import com.demo.exception.AccountNotFoundException;
+import com.payment_system.model.exception.AccountNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;

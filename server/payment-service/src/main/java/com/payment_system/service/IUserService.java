@@ -1,11 +1,12 @@
-package com.demo.service;
+package com.payment_system.service;
 
-import com.demo.entity.User;
-import com.demo.exception.AccountNotFoundException;
-import com.demo.exception.UsersNotFoundException;
+import com.payment_system.model.entity.User;
+import com.payment_system.model.exception.AccountNotFoundException;
+import com.payment_system.model.exception.UsersNotFoundException;
 
 import java.util.List;
 
+//TODO implement user logic
 public interface IUserService {
 
     User checkLoginAndPassword(String login, String password) throws UsersNotFoundException;

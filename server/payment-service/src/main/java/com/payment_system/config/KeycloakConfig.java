@@ -1,4 +1,4 @@
-package com.demo.config;
+package com.payment_system.config;
 
 import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
 import org.springframework.context.annotation.Bean;

@@ -1,6 +1,6 @@
-package com.demo.repository;
+package com.payment_system.repository;
 
-import com.demo.entity.User;
+import com.payment_system.model.entity.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -19,6 +19,4 @@ public interface UserRepository extends CrudRepository<User, UUID> {
     Optional<User> findByLoginAndPassword(String login, String password);
 
     Optional<User> findByLogin(String login);
-
-    Optional<User> findByName(String name);
 }

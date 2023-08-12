@@ -1,4 +1,4 @@
-package com.demo.exception;
+package com.payment_system.model.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

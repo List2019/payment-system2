@@ -1,4 +1,4 @@
-package com.demo.entity;
+package com.payment_system.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;

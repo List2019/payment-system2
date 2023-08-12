@@ -1,8 +1,8 @@
-import com.demo.DemoApplication
-import com.demo.dto.TransferRequestDto
-import com.demo.entity.Account
-import com.demo.entity.User
-import com.demo.repository.AccountRepository
+import com.payment_system.DemoApplication
+import com.payment_system.model.dto.TransferRequestDto
+import com.payment_system.model.entity.Account
+import com.payment_system.model.entity.User
+import com.payment_system.repository.AccountRepository
 import com.google.gson.Gson
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @Testcontainers
 @SpringBootTest(classes = DemoApplication.class)
 @AutoConfigureMockMvc
-class HomeControllerSpec extends Specification {
+class MainControllerSpec extends Specification {
 
     @Autowired
     private MockMvc mockMvc
@@ -62,7 +62,7 @@ class HomeControllerSpec extends Specification {
 
         when:
         def response = mockMvc.perform(
-                post("/api/v1/accounts")
+                post("/api/v1/account")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new Gson().toJson(account))
         )
@@ -76,7 +76,7 @@ class HomeControllerSpec extends Specification {
     def "deposit account"() {
         when:
         def response = mockMvc.perform(
-                post("/api/v1/accounts/346598060226129")
+                post("/api/v1/account/346598060226129")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer token")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new Gson().toJson(BigDecimal.TEN))
@@ -91,7 +91,7 @@ class HomeControllerSpec extends Specification {
     def "block account"() {
         when:
         def response = mockMvc.perform(
-                patch("/api/v1/accounts/346598060226129")
+                patch("/api/v1/account/346598060226129")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer token")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new Gson().toJson(Boolean.TRUE))
@@ -109,7 +109,7 @@ class HomeControllerSpec extends Specification {
 
         when:
         def response = mockMvc.perform(
-                post("/api/v1/accounts/transfer")
+                post("/api/v1/account/5285787197053207/transfer")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer token")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new Gson().toJson(dto))

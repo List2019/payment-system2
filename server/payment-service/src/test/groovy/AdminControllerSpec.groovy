@@ -1,7 +1,7 @@
-import com.demo.DemoApplication
-import com.demo.entity.Account
-import com.demo.entity.User
-import com.demo.repository.AccountRepository
+import com.payment_system.DemoApplication
+import com.payment_system.model.entity.Account
+import com.payment_system.model.entity.User
+import com.payment_system.repository.AccountRepository
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.springframework.beans.factory.annotation.Autowired
@@ -19,7 +19,7 @@ import spock.lang.Shared
 import spock.lang.Specification
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 
 @Testcontainers
 @SpringBootTest(classes = DemoApplication.class)
@@ -67,7 +67,7 @@ class AdminControllerSpec extends Specification {
 
     def "find user by account number"() {
         when:
-        def response = mockMvc.perform(get("/api/v1/admin/users/5285787197053207"))
+        def response = mockMvc.perform(get("/api/v1/admin/user/5285787197053207"))
                 .andReturn()
                 .getResponse()
 
@@ -80,7 +80,7 @@ class AdminControllerSpec extends Specification {
 
     def "delete account by account number"() {
         when:
-        def response = mockMvc.perform(delete("/api/v1/admin/accounts/5456974023407780"))
+        def response = mockMvc.perform(delete("/api/v1/admin/account/5456974023407780"))
                 .andReturn()
                 .getResponse()
 

@@ -1,10 +1,10 @@
-package com.demo.controller;
+package com.payment_system.controller;
 
-import com.demo.entity.Account;
-import com.demo.entity.User;
-import com.demo.exception.AccountNotFoundException;
-import com.demo.service.IAccountService;
-import com.demo.service.IUserService;
+import com.payment_system.model.entity.Account;
+import com.payment_system.model.entity.User;
+import com.payment_system.model.exception.AccountNotFoundException;
+import com.payment_system.service.IAccountService;
+import com.payment_system.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,13 +26,13 @@ public class AdminController {
         return new ResponseEntity<>(accounts, HttpStatus.OK);
     }
 
-    @GetMapping("/users/{accountNumber}")
+    @GetMapping("/user/{accountNumber}")
     public ResponseEntity<User> search(@PathVariable String accountNumber) throws AccountNotFoundException {
         var user = userService.findUserByAccountNumber(accountNumber);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @DeleteMapping("/accounts/{accountNumber}")
+    @DeleteMapping("/account/{accountNumber}")
     public ResponseEntity<String> deleteAccount(@PathVariable String accountNumber) throws AccountNotFoundException {
         accountService.deleteAccount(accountNumber);
         return ResponseEntity.ok().build();

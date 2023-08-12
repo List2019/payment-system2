@@ -1,4 +1,4 @@
-package com.demo.config;
+package com.payment_system.config;
 
 import org.keycloak.adapters.springsecurity.KeycloakConfiguration;
 import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;
